@@ -1,0 +1,10 @@
+- [Flutter Project Structure: Feature-first or Layer-first?](https://codewithandrea.com/articles/flutter-project-structure/)
+- [Flutter Theming A–Z: Understanding ColorScheme](https://medium.com/@champs_hamy/flutter-theming-a-z-understanding-colorscheme-e5bb3d3d809f)
+- [www.emailregex.com]
+- [Singleton is a design pattern in dart](https://medium.com/@swe.jamirulinfo/singleton-is-a-design-pattern-in-dart-98dd947c6dd1)
+- [Using Dio to fetch data in Flutter](https://medium.com/@dudhatkirtan/using-dio-to-fetch-data-in-flutter-f0fbe426c520)
+- [Top answer to "How to change OutlinedButton border color?"](https://stackoverflow.com/a/57874637)
+- [Second best answer to "Create a rounded button / button with border-radius in Flutter"](https://stackoverflow.com/a/56980885)
+- [Top asnwer to "How to add a Password input type in flutter makes the password user input is not visible?"](https://stackoverflow.com/a/52112297)
+- [Second answer to "How to create number input field in Flutter?"](https://stackoverflow.com/a/54343828)
+- [Top answer to "How can I limit the length of a text field input in flutter?"](https://stackoverflow.com/a/53775364)
