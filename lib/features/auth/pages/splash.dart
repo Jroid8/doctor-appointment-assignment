@@ -1,4 +1,11 @@
-import 'package:doctor_appointment/features/auth/pages/demo_settings.dart';
+import 'package:doctor_appointment/common/models/active_session.dart';
+import 'package:doctor_appointment/common/models/client_info.dart';
+import 'package:doctor_appointment/common/repos/localdb.dart';
+import 'package:doctor_appointment/features/auth/pages/onboarding.dart';
+import 'package:doctor_appointment/features/auth/repos/server.dart';
+import 'package:doctor_appointment/features/auth/services/client_session_mgr.dart';
+import 'package:doctor_appointment/features/home/pages/home.dart';
+import 'package:drift/drift.dart';
 import 'package:flutter/material.dart';
 
 class SplashPage extends StatefulWidget {
@@ -18,11 +25,31 @@ class _SplashPseudoState extends State<SplashPage> {
 
   Future<void> initClient() async {
     await Future.delayed(Duration(seconds: 3));
-    if (mounted) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => DemoSettingsPage()),
+    final sessions = await LocalDB.instance.clientSessionTbl.select().get();
+    if (sessions.isEmpty) {
+      if (mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => OnboardingPage()),
+        );
+      }
+    } else {
+      final ClientSessionManager mgr = ClientSessionManager(
+        LocalDB.instance,
+        MockAuthServerRepo(
+          ClientInfo(id: 8, name: "jamshid", email: "jamshid@gmail.com"),
+          "1234",
+        ),
       );
+      final ActiveSession session = (await mgr.loadLocal())!;
+      if (mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => HomePage(session: session, sessionMgr: mgr),
+          ),
+        );
+      }
     }
 
     // ClientSessionManager mgr = ClientSessionManager(

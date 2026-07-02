@@ -1,25 +1,4 @@
-import 'dart:typed_data';
-import 'package:doctor_appointment/common/models/active_session.dart';
-import 'package:doctor_appointment/common/models/client_info.dart';
-import 'package:doctor_appointment/common/repos/localdb.dart';
-import 'package:doctor_appointment/common/singletons/server_conn.dart';
-import 'package:doctor_appointment/features/auth/pages/demo_settings.dart';
 import 'package:doctor_appointment/features/auth/pages/splash.dart';
-import 'package:doctor_appointment/features/auth/repos/client_picture.dart';
-import 'package:doctor_appointment/features/auth/repos/server.dart';
-import 'package:doctor_appointment/features/auth/services/client_session_mgr.dart';
-import 'package:doctor_appointment/features/home/pages/bookings.dart';
-import 'package:doctor_appointment/features/location/repos/device_location.dart';
-import 'package:doctor_appointment/features/location/repos/label.dart';
-import 'package:doctor_appointment/features/location/repos/pos_to_tile.dart';
-import 'package:doctor_appointment/features/location/services/client_locator.dart';
-import 'package:doctor_appointment/features/medical/repos/bookings.dart';
-import 'package:doctor_appointment/features/medical/repos/doctors.dart';
-import 'package:doctor_appointment/features/medical/repos/favorites.dart';
-import 'package:doctor_appointment/features/medical/repos/health_centers.dart';
-import 'package:doctor_appointment/features/medical/services/bookings_mgr.dart';
-import 'package:doctor_appointment/features/medical/services/doctor_db_mgr.dart';
-import 'package:doctor_appointment/features/medical/services/health_center_db_mgr.dart';
 import 'package:flutter/material.dart';
 import 'package:toastification/toastification.dart';
 
