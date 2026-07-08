@@ -104,7 +104,11 @@ class _BookAppointmentPageState extends State<BookAppointmentPage> {
             Text("Select Hour", style: TextTheme.of(context).headlineLarge!),
             SizedBox(height: 16),
             Expanded(
-              child: _HourSelect(widget: widget, choosenTime: choosenTime),
+              child: _HourSelect(
+                widget: widget,
+                choosenTime: choosenTime,
+                choosenDate: choosenDate,
+              ),
             ),
             FilledButton(
               onPressed: confirm,
@@ -131,11 +135,22 @@ class _DateSelect extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DateTime firstDate = DateTime.now().add(Duration(minutes: 15));
+    if (widget.doctor.workingTime.officeHours.end
+            .withDate(firstDate)
+            .compareTo(firstDate) ==
+        -1) {
+      firstDate = DateTime(
+        firstDate.year,
+        firstDate.month,
+        firstDate.day,
+      ).add(Duration(days: 1));
+    }
     return FilledButton(
       onPressed: () async {
         choosenDate.value = await showDatePicker(
           context: context,
-          firstDate: DateTime.now().add(Duration(minutes: 30)),
+          firstDate: firstDate,
           lastDate: DateTime.now().add(Duration(days: 365)),
           selectableDayPredicate: (day) =>
               widget.doctor.workingTime.startDay.index <= day.weekday &&
@@ -154,23 +169,42 @@ class _DateSelect extends StatelessWidget {
 }
 
 class _HourSelect extends StatelessWidget {
-  const _HourSelect({required this.widget, required this.choosenTime});
+  const _HourSelect({
+    required this.widget,
+    required this.choosenTime,
+    required this.choosenDate,
+  });
 
   final BookAppointmentPage widget;
+  final Rx<DateTime?> choosenDate;
   final Rx<Time?> choosenTime;
+
+  Iterable<Time> available() {
+    final result = widget.doctor.workingTime.officeHours;
+    DateTime today = DateTime.now();
+    if (choosenDate.value != null &&
+        choosenDate.value!.day == today.day &&
+        choosenDate.value!.month == today.month &&
+        choosenDate.value!.year == today.year) {
+      Time now = Time(minute: today.minute, hour: today.hour);
+      return result.where((t) => t.compareTo(now) == 1);
+    } else {
+      return result;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return GridView.count(
-      primary: true,
-      crossAxisCount: 3,
-      crossAxisSpacing: 13.5,
-      mainAxisSpacing: 16,
-      childAspectRatio: 2.5,
-      children: List.of(
-        widget.doctor.workingTime.officeHours.map(
-          (time) => Obx(
-            () => FilledButton(
+    return Obx(
+      () => GridView.count(
+        primary: true,
+        crossAxisCount: 3,
+        crossAxisSpacing: 13.5,
+        mainAxisSpacing: 16,
+        childAspectRatio: 2.5,
+        children: List.of(
+          available().map(
+            (time) => FilledButton(
               onPressed: () {
                 choosenTime.value = time;
               },
