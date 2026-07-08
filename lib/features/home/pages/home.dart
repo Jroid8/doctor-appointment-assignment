@@ -38,10 +38,17 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class _Body extends StatelessWidget {
+class _Body extends StatefulWidget {
   final ActiveSession session;
 
   const _Body({required this.session});
+
+  @override
+  State<_Body> createState() => _BodyState();
+}
+
+class _BodyState extends State<_Body> {
+	final TextEditingController searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -49,14 +56,16 @@ class _Body extends StatelessWidget {
       child: Column(
         children: [
           DoctorSearchBar(
+						controller: searchController,
             onChanged: (query) {
+							searchController.value = TextEditingValue(text: "");
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (_) => DoctorSearchPage(
-                    listMgr: session.doctorListMgr,
-                    locator: session.locator,
-                    bookingsMgr: session.bookingsMgr,
+                    listMgr: widget.session.doctorListMgr,
+                    locator: widget.session.locator,
+                    bookingsMgr: widget.session.bookingsMgr,
                     initalQuery: query,
                   ),
                 ),
@@ -66,9 +75,9 @@ class _Body extends StatelessWidget {
           SizedBox(height: 14),
           Image.asset("assets/images/Banner.png"),
           SizedBox(height: 16),
-          _Categories(session: session),
+          _Categories(session: widget.session),
           SizedBox(height: 16),
-          _NearbyHealthCenters(session: session),
+          _NearbyHealthCenters(session: widget.session),
         ],
       ),
     );

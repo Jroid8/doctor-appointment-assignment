@@ -30,6 +30,7 @@ class DoctorSearchPage extends StatefulWidget {
 }
 
 class _DoctorSearchState extends State<DoctorSearchPage> {
+  final TextEditingController searchController = TextEditingController();
   late _Controller c;
 
   @override
@@ -40,6 +41,7 @@ class _DoctorSearchState extends State<DoctorSearchPage> {
       initialQuery: widget.initalQuery,
       initialSpecialty: widget.initialSpeciality,
     );
+    searchController.value = TextEditingValue(text: widget.initalQuery ?? "");
     c.init();
     super.initState();
   }
@@ -51,6 +53,7 @@ class _DoctorSearchState extends State<DoctorSearchPage> {
         children: [
           _TopBar(),
           DoctorSearchBar(
+						controller: searchController,
             onChanged: (q) {
               c.query.value = q;
             },
