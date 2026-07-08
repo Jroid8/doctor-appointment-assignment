@@ -101,9 +101,11 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
                 ],
               ),
               SizedBox(height: 16),
-              _Reviews(
-                reviewsRepo: widget.reviewsRepo,
-                doctorId: widget.model.id,
+              Expanded(
+                child: _Reviews(
+                  reviewsRepo: widget.reviewsRepo,
+                  doctorId: widget.model.id,
+                ),
               ),
               SizedBox(height: 24),
               FilledButton(
