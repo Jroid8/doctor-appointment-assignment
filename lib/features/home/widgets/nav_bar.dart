@@ -28,31 +28,35 @@ class BottomNavBar extends StatelessWidget {
       onTap: (index) {
         switch (index) {
           case 0:
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) =>
-                    HomePage(session: session, sessionMgr: sessionMgr),
-              ),
-            );
-          case 2:
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => BookingsPage(
-									session: session,
-									sessionMgr: sessionMgr,
+            if (currentIndex != 0) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) =>
+                      HomePage(session: session, sessionMgr: sessionMgr),
                 ),
-              ),
-            );
+              );
+            }
+          case 2:
+            if (currentIndex != 2) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) =>
+                      BookingsPage(session: session, sessionMgr: sessionMgr),
+                ),
+              );
+            }
           case 3:
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) =>
-                    ProfilePage(session: session, sessionMgr: sessionMgr),
-              ),
-            );
+            if (currentIndex != 3) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) =>
+                      ProfilePage(session: session, sessionMgr: sessionMgr),
+                ),
+              );
+            }
         }
       },
       items: [
