@@ -50,86 +50,90 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
     return Scaffold(
       body: Padding(
         padding: .symmetric(horizontal: 24, vertical: 10),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: .stretch,
-            children: [
-              _TopBar(isFavorite: isFavorite, widget: widget),
-              SizedBox(height: 16),
-              _DoctorCard(model: widget.model),
-              SizedBox(height: 26),
-              _DoctorStats(model: widget.model),
-              SizedBox(height: 16),
-              Text("About me", style: header),
-              SizedBox(height: 8),
-              RichText(
-                text: TextSpan(
-                  text: widget.model.bio,
-                  style: TextTheme.of(context).bodyMedium,
+        child: Column(
+					crossAxisAlignment: .stretch,
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
                   children: [
-                    TextSpan(text: " "),
-                    TextSpan(
-                      text: "view more",
-                      style: TextTheme.of(context).bodyMedium!.copyWith(
-                        color: Color(0xFF111928),
-                        decoration: .underline,
+                    _TopBar(isFavorite: isFavorite, widget: widget),
+                    SizedBox(height: 16),
+                    _DoctorCard(model: widget.model),
+                    SizedBox(height: 26),
+                    _DoctorStats(model: widget.model),
+                    SizedBox(height: 16),
+                    Text("About me", style: header),
+                    SizedBox(height: 8),
+                    RichText(
+                      text: TextSpan(
+                        text: widget.model.bio,
+                        style: TextTheme.of(context).bodyMedium,
+                        children: [
+                          TextSpan(text: " "),
+                          TextSpan(
+                            text: "view more",
+                            style: TextTheme.of(context).bodyMedium!.copyWith(
+                              color: Color(0xFF111928),
+                              decoration: .underline,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
+                    SizedBox(height: 16),
+                    Text("Working Time", style: header),
+                    SizedBox(height: 8),
+                    Text(
+                      widget.model.workingTime.toString(),
+                      style: TextTheme.of(context).bodyMedium,
+                    ),
+                    SizedBox(height: 16),
+                    Row(
+                      mainAxisAlignment: .spaceBetween,
+                      children: [
+                        Text("Reviews", style: header),
+                        Text(
+                          "See All",
+                          style: TextStyle(
+                            color: Color(0xFF6B7280),
+                            fontWeight: .w500,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 16),
+                    _Reviews(
+                      reviewsRepo: widget.reviewsRepo,
+                      doctorId: widget.model.id,
+                    ),
+                    SizedBox(height: 24),
                   ],
                 ),
               ),
-              SizedBox(height: 16),
-              Text("Working Time", style: header),
-              SizedBox(height: 8),
-              Text(
-                widget.model.workingTime.toString(),
-                style: TextTheme.of(context).bodyMedium,
-              ),
-              SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: .spaceBetween,
-                children: [
-                  Text("Reviews", style: header),
-                  Text(
-                    "See All",
-                    style: TextStyle(
-                      color: Color(0xFF6B7280),
-                      fontWeight: .w500,
-                      fontSize: 14,
+            ),
+            FilledButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => BookAppointmentPage(
+                      bookingsMgr: widget.bookingsMgr,
+                      doctor: widget.model,
                     ),
                   ),
-                ],
-              ),
-              SizedBox(height: 16),
-              Expanded(
-                child: _Reviews(
-                  reviewsRepo: widget.reviewsRepo,
-                  doctorId: widget.model.id,
+                );
+              },
+              child: Padding(
+                padding: .all(12),
+                child: Text(
+                  "Book Appointment",
+                  style: TextStyle(fontWeight: .w500, fontSize: 16),
                 ),
               ),
-              SizedBox(height: 24),
-              FilledButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => BookAppointmentPage(
-                        bookingsMgr: widget.bookingsMgr,
-                        doctor: widget.model,
-                      ),
-                    ),
-                  );
-                },
-                child: Padding(
-                  padding: .all(12),
-                  child: Text(
-                    "Book Appointment",
-                    style: TextStyle(fontWeight: .w500, fontSize: 16),
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
