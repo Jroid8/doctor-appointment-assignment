@@ -1,4 +1,5 @@
 import 'package:doctor_appointment/common/models/time.dart';
+import 'package:doctor_appointment/common/widgets/success_modal.dart';
 import 'package:doctor_appointment/features/medical/models/doctor.dart';
 import 'package:doctor_appointment/features/medical/services/bookings_mgr.dart';
 import 'package:flutter/material.dart';
@@ -46,16 +47,42 @@ class _BookAppointmentPageState extends State<BookAppointmentPage> {
       );
       final DateFormat bookingFmt = DateFormat.yMMMMd().add_jm();
       if (!mounted) return;
-      toastification.show(
-        style: .fillColored,
-        type: .success,
-        autoCloseDuration: Duration(seconds: 5),
-        title: Text("Done!"),
-        description: Text(
-          "Your booking with Dr. ${widget.doctor.name} is confirmed for ${bookingFmt.format(bookDate)}.",
+      await showGeneralDialog(
+        context: context,
+        barrierDismissible: true,
+        barrierLabel: "Success",
+        barrierColor: Colors.black54,
+        pageBuilder: (_, _, _) => SuccessModal(
+          message:
+              "Your booking with Dr. ${widget.doctor.name} is confirmed for ${bookingFmt.format(bookDate)}.",
+          child: Expanded(
+            child: Column(
+              crossAxisAlignment: .stretch,
+              children: [
+                SizedBox(
+                  height: 48,
+                  child: FilledButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text("Done"),
+                  ),
+                ),
+                SizedBox(height: 16),
+                GestureDetector(
+                  child: Text(
+                    "Edit your appointment",
+                    style: TextTheme.of(context).bodyMedium!,
+                    textAlign: .center,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       );
-			Navigator.pop(context);
+      if (!mounted) return;
+      Navigator.pop(context);
     }
   }
 
