@@ -115,6 +115,7 @@ class _LoginFormState extends State<_LoginForm> {
             controller: passwordController,
             icon: "assets/images/lock.svg",
             label: "Password",
+						mustObscure: true,
           ),
           SizedBox(
             height: 48,
