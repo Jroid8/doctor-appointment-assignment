@@ -48,6 +48,7 @@ class EditProfilePage extends StatelessWidget {
               child: _ProfileDetailsForm(
                 session: session,
                 remoteRepo: remoteRepo,
+                client: session.client,
               ),
             ),
           ),
@@ -87,19 +88,24 @@ class _ProfilePicture extends StatelessWidget {
 }
 
 class _ProfileDetailsForm extends StatefulWidget {
+  final ClientInfo client;
   final ClientProfileRepo remoteRepo;
   final ActiveSession session;
 
-  const _ProfileDetailsForm({required this.session, required this.remoteRepo});
+  const _ProfileDetailsForm({
+    required this.session,
+    required this.remoteRepo,
+    required this.client,
+  });
 
   @override
   State<StatefulWidget> createState() => _ProfileDetailsFormState();
 }
 
 class _ProfileDetailsFormState extends State<_ProfileDetailsForm> {
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController nicknameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
+  late final TextEditingController nameController;
+  late final TextEditingController nicknameController;
+  late final TextEditingController emailController;
   final TextEditingController birthdayController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPwdController = TextEditingController();
@@ -116,6 +122,9 @@ class _ProfileDetailsFormState extends State<_ProfileDetailsForm> {
 
   @override
   void initState() {
+    nameController = TextEditingController(text: widget.client.name);
+    nicknameController = TextEditingController(text: widget.client.nickname);
+    emailController = TextEditingController(text: widget.client.email);
     gender = widget.session.client.gender;
     super.initState();
   }
