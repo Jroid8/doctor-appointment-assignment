@@ -5,6 +5,7 @@ import 'package:doctor_appointment/features/auth/repos/client_profile.dart';
 import 'package:doctor_appointment/features/auth/services/client_session_mgr.dart';
 import 'package:doctor_appointment/features/home/pages/edit_profile.dart';
 import 'package:doctor_appointment/features/home/pages/favorites.dart';
+import 'package:doctor_appointment/features/home/pages/notifications.dart';
 import 'package:doctor_appointment/features/home/widgets/nav_bar.dart';
 import 'package:doctor_appointment/features/location/repos/map_distance.dart';
 import 'package:flutter/material.dart';
@@ -123,7 +124,16 @@ class _ProfileSectionsState extends State<_ProfileSections> {
           ),
         );
       },
-      () {},
+      () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => NotificationsPage(
+              notificationsMgr: widget.session.notificationsMgr,
+            ),
+          ),
+        );
+      },
       () {},
       () {},
       () {},

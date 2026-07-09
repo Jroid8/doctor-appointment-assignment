@@ -1,6 +1,7 @@
 import 'package:doctor_appointment/common/models/active_session.dart';
 import 'package:doctor_appointment/features/auth/services/client_session_mgr.dart';
 import 'package:doctor_appointment/features/home/pages/doctor_search.dart';
+import 'package:doctor_appointment/features/home/pages/notifications.dart';
 import 'package:doctor_appointment/features/home/widgets/nav_bar.dart';
 import 'package:doctor_appointment/features/location/repos/map_distance.dart';
 import 'package:doctor_appointment/features/medical/models/specialty.dart';
@@ -48,7 +49,7 @@ class _Body extends StatefulWidget {
 }
 
 class _BodyState extends State<_Body> {
-	final TextEditingController searchController = TextEditingController();
+  final TextEditingController searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -56,9 +57,9 @@ class _BodyState extends State<_Body> {
       child: Column(
         children: [
           DoctorSearchBar(
-						controller: searchController,
+            controller: searchController,
             onChanged: (query) {
-							searchController.value = TextEditingValue(text: "");
+              searchController.value = TextEditingValue(text: "");
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -222,7 +223,16 @@ class _TopBar extends StatelessWidget {
         _LocationLabel(session: session),
         Spacer(),
         IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => NotificationsPage(
+                  notificationsMgr: session.notificationsMgr,
+                ),
+              ),
+            );
+          },
           icon: SvgPicture.asset("assets/images/bell-filled.svg"),
         ),
       ],

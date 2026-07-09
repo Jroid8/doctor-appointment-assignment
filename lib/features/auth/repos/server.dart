@@ -20,6 +20,8 @@ import 'package:doctor_appointment/features/medical/repos/health_centers.dart';
 import 'package:doctor_appointment/features/medical/services/bookings_mgr.dart';
 import 'package:doctor_appointment/features/medical/services/doctor_db_mgr.dart';
 import 'package:doctor_appointment/features/medical/services/health_center_db_mgr.dart';
+import 'package:doctor_appointment/features/notification/manager.dart';
+import 'package:doctor_appointment/features/notification/repos/mock.dart';
 
 abstract class AuthServerRepo {
   Future<ActiveSession?> login(String email, String password);
@@ -64,6 +66,10 @@ class MockAuthServerRepo implements AuthServerRepo {
       bookingsMgr: BookingsManager(
         localdb: LocalDB.instance,
         remoteRepo: MockBookingsRepo(),
+      ),
+      notificationsMgr: NotificationsManager(
+        localdb: LocalDB.instance,
+        remoteRepo: MockNotificationRepo(),
       ),
     );
   }

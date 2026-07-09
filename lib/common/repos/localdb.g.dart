@@ -2815,6 +2815,363 @@ class BookingCompanion extends UpdateCompanion<BookingData> {
   }
 }
 
+class $UnreadNotificationsTblTable extends UnreadNotificationsTbl
+    with TableInfo<$UnreadNotificationsTblTable, UnreadNotificationsTblData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $UnreadNotificationsTblTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
+  );
+  static const VerificationMeta _titleMeta = const VerificationMeta('title');
+  @override
+  late final GeneratedColumn<String> title = GeneratedColumn<String>(
+    'title',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _descMeta = const VerificationMeta('desc');
+  @override
+  late final GeneratedColumn<String> desc = GeneratedColumn<String>(
+    'desc',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _timestampMeta = const VerificationMeta(
+    'timestamp',
+  );
+  @override
+  late final GeneratedColumn<DateTime> timestamp = GeneratedColumn<DateTime>(
+    'timestamp',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _iconMeta = const VerificationMeta('icon');
+  @override
+  late final GeneratedColumn<int> icon = GeneratedColumn<int>(
+    'icon',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, title, desc, timestamp, icon];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'unread_notifications_tbl';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<UnreadNotificationsTblData> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('title')) {
+      context.handle(
+        _titleMeta,
+        title.isAcceptableOrUnknown(data['title']!, _titleMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_titleMeta);
+    }
+    if (data.containsKey('desc')) {
+      context.handle(
+        _descMeta,
+        desc.isAcceptableOrUnknown(data['desc']!, _descMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_descMeta);
+    }
+    if (data.containsKey('timestamp')) {
+      context.handle(
+        _timestampMeta,
+        timestamp.isAcceptableOrUnknown(data['timestamp']!, _timestampMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_timestampMeta);
+    }
+    if (data.containsKey('icon')) {
+      context.handle(
+        _iconMeta,
+        icon.isAcceptableOrUnknown(data['icon']!, _iconMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => const {};
+  @override
+  UnreadNotificationsTblData map(
+    Map<String, dynamic> data, {
+    String? tablePrefix,
+  }) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return UnreadNotificationsTblData(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      title: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}title'],
+      )!,
+      desc: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}desc'],
+      )!,
+      timestamp: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}timestamp'],
+      )!,
+      icon: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}icon'],
+      ),
+    );
+  }
+
+  @override
+  $UnreadNotificationsTblTable createAlias(String alias) {
+    return $UnreadNotificationsTblTable(attachedDatabase, alias);
+  }
+}
+
+class UnreadNotificationsTblData extends DataClass
+    implements Insertable<UnreadNotificationsTblData> {
+  final int id;
+  final String title;
+  final String desc;
+  final DateTime timestamp;
+  final int? icon;
+  const UnreadNotificationsTblData({
+    required this.id,
+    required this.title,
+    required this.desc,
+    required this.timestamp,
+    this.icon,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['title'] = Variable<String>(title);
+    map['desc'] = Variable<String>(desc);
+    map['timestamp'] = Variable<DateTime>(timestamp);
+    if (!nullToAbsent || icon != null) {
+      map['icon'] = Variable<int>(icon);
+    }
+    return map;
+  }
+
+  UnreadNotificationsTblCompanion toCompanion(bool nullToAbsent) {
+    return UnreadNotificationsTblCompanion(
+      id: Value(id),
+      title: Value(title),
+      desc: Value(desc),
+      timestamp: Value(timestamp),
+      icon: icon == null && nullToAbsent ? const Value.absent() : Value(icon),
+    );
+  }
+
+  factory UnreadNotificationsTblData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return UnreadNotificationsTblData(
+      id: serializer.fromJson<int>(json['id']),
+      title: serializer.fromJson<String>(json['title']),
+      desc: serializer.fromJson<String>(json['desc']),
+      timestamp: serializer.fromJson<DateTime>(json['timestamp']),
+      icon: serializer.fromJson<int?>(json['icon']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'title': serializer.toJson<String>(title),
+      'desc': serializer.toJson<String>(desc),
+      'timestamp': serializer.toJson<DateTime>(timestamp),
+      'icon': serializer.toJson<int?>(icon),
+    };
+  }
+
+  UnreadNotificationsTblData copyWith({
+    int? id,
+    String? title,
+    String? desc,
+    DateTime? timestamp,
+    Value<int?> icon = const Value.absent(),
+  }) => UnreadNotificationsTblData(
+    id: id ?? this.id,
+    title: title ?? this.title,
+    desc: desc ?? this.desc,
+    timestamp: timestamp ?? this.timestamp,
+    icon: icon.present ? icon.value : this.icon,
+  );
+  UnreadNotificationsTblData copyWithCompanion(
+    UnreadNotificationsTblCompanion data,
+  ) {
+    return UnreadNotificationsTblData(
+      id: data.id.present ? data.id.value : this.id,
+      title: data.title.present ? data.title.value : this.title,
+      desc: data.desc.present ? data.desc.value : this.desc,
+      timestamp: data.timestamp.present ? data.timestamp.value : this.timestamp,
+      icon: data.icon.present ? data.icon.value : this.icon,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('UnreadNotificationsTblData(')
+          ..write('id: $id, ')
+          ..write('title: $title, ')
+          ..write('desc: $desc, ')
+          ..write('timestamp: $timestamp, ')
+          ..write('icon: $icon')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, title, desc, timestamp, icon);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is UnreadNotificationsTblData &&
+          other.id == this.id &&
+          other.title == this.title &&
+          other.desc == this.desc &&
+          other.timestamp == this.timestamp &&
+          other.icon == this.icon);
+}
+
+class UnreadNotificationsTblCompanion
+    extends UpdateCompanion<UnreadNotificationsTblData> {
+  final Value<int> id;
+  final Value<String> title;
+  final Value<String> desc;
+  final Value<DateTime> timestamp;
+  final Value<int?> icon;
+  final Value<int> rowid;
+  const UnreadNotificationsTblCompanion({
+    this.id = const Value.absent(),
+    this.title = const Value.absent(),
+    this.desc = const Value.absent(),
+    this.timestamp = const Value.absent(),
+    this.icon = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  UnreadNotificationsTblCompanion.insert({
+    required int id,
+    required String title,
+    required String desc,
+    required DateTime timestamp,
+    this.icon = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       title = Value(title),
+       desc = Value(desc),
+       timestamp = Value(timestamp);
+  static Insertable<UnreadNotificationsTblData> custom({
+    Expression<int>? id,
+    Expression<String>? title,
+    Expression<String>? desc,
+    Expression<DateTime>? timestamp,
+    Expression<int>? icon,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (title != null) 'title': title,
+      if (desc != null) 'desc': desc,
+      if (timestamp != null) 'timestamp': timestamp,
+      if (icon != null) 'icon': icon,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  UnreadNotificationsTblCompanion copyWith({
+    Value<int>? id,
+    Value<String>? title,
+    Value<String>? desc,
+    Value<DateTime>? timestamp,
+    Value<int?>? icon,
+    Value<int>? rowid,
+  }) {
+    return UnreadNotificationsTblCompanion(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      desc: desc ?? this.desc,
+      timestamp: timestamp ?? this.timestamp,
+      icon: icon ?? this.icon,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (title.present) {
+      map['title'] = Variable<String>(title.value);
+    }
+    if (desc.present) {
+      map['desc'] = Variable<String>(desc.value);
+    }
+    if (timestamp.present) {
+      map['timestamp'] = Variable<DateTime>(timestamp.value);
+    }
+    if (icon.present) {
+      map['icon'] = Variable<int>(icon.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('UnreadNotificationsTblCompanion(')
+          ..write('id: $id, ')
+          ..write('title: $title, ')
+          ..write('desc: $desc, ')
+          ..write('timestamp: $timestamp, ')
+          ..write('icon: $icon, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$LocalDB extends GeneratedDatabase {
   _$LocalDB(QueryExecutor e) : super(e);
   $LocalDBManager get managers => $LocalDBManager(this);
@@ -2826,6 +3183,8 @@ abstract class _$LocalDB extends GeneratedDatabase {
   );
   late final $DoctorTblTable doctorTbl = $DoctorTblTable(this);
   late final $BookingTable booking = $BookingTable(this);
+  late final $UnreadNotificationsTblTable unreadNotificationsTbl =
+      $UnreadNotificationsTblTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -2835,6 +3194,7 @@ abstract class _$LocalDB extends GeneratedDatabase {
     healthCenterTbl,
     doctorTbl,
     booking,
+    unreadNotificationsTbl,
   ];
 }
 
@@ -4180,6 +4540,225 @@ typedef $$BookingTableProcessedTableManager =
       BookingData,
       PrefetchHooks Function()
     >;
+typedef $$UnreadNotificationsTblTableCreateCompanionBuilder =
+    UnreadNotificationsTblCompanion Function({
+      required int id,
+      required String title,
+      required String desc,
+      required DateTime timestamp,
+      Value<int?> icon,
+      Value<int> rowid,
+    });
+typedef $$UnreadNotificationsTblTableUpdateCompanionBuilder =
+    UnreadNotificationsTblCompanion Function({
+      Value<int> id,
+      Value<String> title,
+      Value<String> desc,
+      Value<DateTime> timestamp,
+      Value<int?> icon,
+      Value<int> rowid,
+    });
+
+class $$UnreadNotificationsTblTableFilterComposer
+    extends Composer<_$LocalDB, $UnreadNotificationsTblTable> {
+  $$UnreadNotificationsTblTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get title => $composableBuilder(
+    column: $table.title,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get desc => $composableBuilder(
+    column: $table.desc,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get timestamp => $composableBuilder(
+    column: $table.timestamp,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get icon => $composableBuilder(
+    column: $table.icon,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$UnreadNotificationsTblTableOrderingComposer
+    extends Composer<_$LocalDB, $UnreadNotificationsTblTable> {
+  $$UnreadNotificationsTblTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get title => $composableBuilder(
+    column: $table.title,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get desc => $composableBuilder(
+    column: $table.desc,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get timestamp => $composableBuilder(
+    column: $table.timestamp,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get icon => $composableBuilder(
+    column: $table.icon,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$UnreadNotificationsTblTableAnnotationComposer
+    extends Composer<_$LocalDB, $UnreadNotificationsTblTable> {
+  $$UnreadNotificationsTblTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get title =>
+      $composableBuilder(column: $table.title, builder: (column) => column);
+
+  GeneratedColumn<String> get desc =>
+      $composableBuilder(column: $table.desc, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get timestamp =>
+      $composableBuilder(column: $table.timestamp, builder: (column) => column);
+
+  GeneratedColumn<int> get icon =>
+      $composableBuilder(column: $table.icon, builder: (column) => column);
+}
+
+class $$UnreadNotificationsTblTableTableManager
+    extends
+        RootTableManager<
+          _$LocalDB,
+          $UnreadNotificationsTblTable,
+          UnreadNotificationsTblData,
+          $$UnreadNotificationsTblTableFilterComposer,
+          $$UnreadNotificationsTblTableOrderingComposer,
+          $$UnreadNotificationsTblTableAnnotationComposer,
+          $$UnreadNotificationsTblTableCreateCompanionBuilder,
+          $$UnreadNotificationsTblTableUpdateCompanionBuilder,
+          (
+            UnreadNotificationsTblData,
+            BaseReferences<
+              _$LocalDB,
+              $UnreadNotificationsTblTable,
+              UnreadNotificationsTblData
+            >,
+          ),
+          UnreadNotificationsTblData,
+          PrefetchHooks Function()
+        > {
+  $$UnreadNotificationsTblTableTableManager(
+    _$LocalDB db,
+    $UnreadNotificationsTblTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$UnreadNotificationsTblTableFilterComposer(
+                $db: db,
+                $table: table,
+              ),
+          createOrderingComposer: () =>
+              $$UnreadNotificationsTblTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$UnreadNotificationsTblTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> title = const Value.absent(),
+                Value<String> desc = const Value.absent(),
+                Value<DateTime> timestamp = const Value.absent(),
+                Value<int?> icon = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => UnreadNotificationsTblCompanion(
+                id: id,
+                title: title,
+                desc: desc,
+                timestamp: timestamp,
+                icon: icon,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required int id,
+                required String title,
+                required String desc,
+                required DateTime timestamp,
+                Value<int?> icon = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => UnreadNotificationsTblCompanion.insert(
+                id: id,
+                title: title,
+                desc: desc,
+                timestamp: timestamp,
+                icon: icon,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$UnreadNotificationsTblTableProcessedTableManager =
+    ProcessedTableManager<
+      _$LocalDB,
+      $UnreadNotificationsTblTable,
+      UnreadNotificationsTblData,
+      $$UnreadNotificationsTblTableFilterComposer,
+      $$UnreadNotificationsTblTableOrderingComposer,
+      $$UnreadNotificationsTblTableAnnotationComposer,
+      $$UnreadNotificationsTblTableCreateCompanionBuilder,
+      $$UnreadNotificationsTblTableUpdateCompanionBuilder,
+      (
+        UnreadNotificationsTblData,
+        BaseReferences<
+          _$LocalDB,
+          $UnreadNotificationsTblTable,
+          UnreadNotificationsTblData
+        >,
+      ),
+      UnreadNotificationsTblData,
+      PrefetchHooks Function()
+    >;
 
 class $LocalDBManager {
   final _$LocalDB _db;
@@ -4192,4 +4771,9 @@ class $LocalDBManager {
       $$DoctorTblTableTableManager(_db, _db.doctorTbl);
   $$BookingTableTableManager get booking =>
       $$BookingTableTableManager(_db, _db.booking);
+  $$UnreadNotificationsTblTableTableManager get unreadNotificationsTbl =>
+      $$UnreadNotificationsTblTableTableManager(
+        _db,
+        _db.unreadNotificationsTbl,
+      );
 }

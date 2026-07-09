@@ -1,3 +1,4 @@
+import 'package:doctor_appointment/features/notification/table.dart';
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 import 'package:path_provider/path_provider.dart';
@@ -8,7 +9,15 @@ import 'package:doctor_appointment/features/medical/tables/booking.dart';
 
 part 'localdb.g.dart';
 
-@DriftDatabase(tables: [ClientSessionTbl, HealthCenterTbl, DoctorTbl, Booking])
+@DriftDatabase(
+  tables: [
+    ClientSessionTbl,
+    HealthCenterTbl,
+    DoctorTbl,
+    Booking,
+    UnreadNotificationsTbl,
+  ],
+)
 class LocalDB extends _$LocalDB {
   LocalDB([QueryExecutor? executor]) : super(executor ?? _openConnection());
 

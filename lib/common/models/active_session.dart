@@ -14,6 +14,8 @@ import 'package:doctor_appointment/features/medical/repos/health_centers.dart';
 import 'package:doctor_appointment/features/medical/services/bookings_mgr.dart';
 import 'package:doctor_appointment/features/medical/services/doctor_db_mgr.dart';
 import 'package:doctor_appointment/features/medical/services/health_center_db_mgr.dart';
+import 'package:doctor_appointment/features/notification/manager.dart';
+import 'package:doctor_appointment/features/notification/repos/mock.dart';
 
 class ActiveSession {
   final Uint8List token;
@@ -22,6 +24,7 @@ class ActiveSession {
   final DoctorDbManager doctorListMgr;
   final HealthCenterDbManager healthCenterListMgr;
   final BookingsManager bookingsMgr;
+  final NotificationsManager notificationsMgr;
 
   const ActiveSession({
     required this.token,
@@ -30,6 +33,7 @@ class ActiveSession {
     required this.healthCenterListMgr,
     required this.doctorListMgr,
     required this.bookingsMgr,
+    required this.notificationsMgr,
   });
 
   ActiveSession.fromLocalTable(ClientSessionTblData data)
@@ -54,6 +58,10 @@ class ActiveSession {
       bookingsMgr = BookingsManager(
         localdb: LocalDB.instance,
         remoteRepo: MockBookingsRepo(),
+      ),
+      notificationsMgr = NotificationsManager(
+        localdb: LocalDB.instance,
+        remoteRepo: MockNotificationRepo(),
       );
 
   ClientSessionTblData toLocalTable() => ClientSessionTblData(
@@ -86,5 +94,9 @@ class ActiveSession {
       bookingsMgr = BookingsManager(
         localdb: LocalDB.instance,
         remoteRepo: MockBookingsRepo(),
+      ),
+      notificationsMgr = NotificationsManager(
+        localdb: LocalDB.instance,
+        remoteRepo: MockNotificationRepo(),
       );
 }
