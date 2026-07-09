@@ -9,21 +9,47 @@ import 'package:doctor_appointment/features/medical/widget/search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+abstract class _SpecialtyFilter {
+  bool predicate(Specialty spec);
+}
+
+class _AllSpecs implements _SpecialtyFilter {
+  const _AllSpecs();
+
+  @override
+  bool predicate(Specialty spec) {
+    return true;
+  }
+}
+
+class _SpecificSpec implements _SpecialtyFilter {
+  final Specialty target;
+
+  const _SpecificSpec(this.target);
+
+  @override
+  bool predicate(Specialty spec) {
+    return spec == target;
+  }
+}
+
 class DoctorSearchPage extends StatefulWidget {
   final DoctorDbManager listMgr;
   final ClientLocator locator;
   final BookingsManager bookingsMgr;
   final String? initalQuery;
-  final Specialty? initialSpeciality;
+  final _SpecialtyFilter _initialSpeciality;
 
-  const DoctorSearchPage({
+  DoctorSearchPage({
     required this.listMgr,
     required this.locator,
     required this.bookingsMgr,
     this.initalQuery,
-    this.initialSpeciality,
+    Specialty? initialSpeciality,
     super.key,
-  });
+  }) : _initialSpeciality = initialSpeciality == null
+           ? const _AllSpecs()
+           : _SpecificSpec(initialSpeciality);
 
   @override
   State<StatefulWidget> createState() => _DoctorSearchState();
@@ -39,7 +65,7 @@ class _DoctorSearchState extends State<DoctorSearchPage> {
       locator: widget.locator,
       listMgr: widget.listMgr,
       initialQuery: widget.initalQuery,
-      initialSpecialty: widget.initialSpeciality,
+      specFilter: widget._initialSpeciality,
     );
     searchController.value = TextEditingValue(text: widget.initalQuery ?? "");
     c.init();
@@ -53,7 +79,7 @@ class _DoctorSearchState extends State<DoctorSearchPage> {
         children: [
           _TopBar(),
           DoctorSearchBar(
-						controller: searchController,
+            controller: searchController,
             onChanged: (q) {
               c.query.value = q;
             },
@@ -76,15 +102,15 @@ class _Controller extends GetxController {
 
   RxList<Doctor> shownDoctors = RxList([]);
   RxString query;
-  Rx<Specialty?> specialty;
+  Rx<_SpecialtyFilter> specFilter;
 
   _Controller({
     required this.listMgr,
     required this.locator,
+    required _SpecialtyFilter specFilter,
     String? initialQuery,
-    Specialty? initialSpecialty,
   }) : query = initialQuery == null ? "".obs : initialQuery.obs,
-       specialty = initialSpecialty == null ? Rx(null) : initialSpecialty.obs;
+       specFilter = Rx(specFilter);
 
   void refreshShownList() {
     shownDoctors.value = List.of(
@@ -95,7 +121,7 @@ class _Controller extends GetxController {
                 doc.address.toLowerCase().contains(
                   query.value.toLowerCase(),
                 )) &&
-            (specialty.value == null || doc.specialty == specialty.value),
+            specFilter.value.predicate(doc.specialty),
       ),
     );
   }
@@ -105,7 +131,7 @@ class _Controller extends GetxController {
     refreshShownList();
     listMgr.doctors.listen((_) => refreshShownList());
     query.listen((_) => refreshShownList());
-    specialty.listen((_) => refreshShownList());
+    specFilter.listen((_) => refreshShownList());
   }
 }
 
@@ -143,36 +169,40 @@ class _SpecSelect extends StatelessWidget {
     final primaryColor = ColorScheme.of(context).primary;
     return SizedBox(
       height: 37,
-      child: Obx(() {
-        final activeSpec = c.specialty.value;
-        return ListView.separated(
-          scrollDirection: .horizontal,
-          itemCount: Specialty.values.length,
-          separatorBuilder: (_, _) => SizedBox(width: 8),
-          itemBuilder: (_, idx) {
-            final spec = idx == 0 ? null : Specialty.values[idx - 1];
-            final selected = spec == activeSpec;
-            return ChoiceChip(
-              label: Text((spec?.name ?? "all").capitalizeFirst!),
-              selected: selected,
-              showCheckmark: false,
-              backgroundColor: Colors.white,
-              selectedColor: primaryColor,
-              side: BorderSide(color: primaryColor),
-              labelStyle: TextStyle(
-                color: selected ? Colors.white : primaryColor,
-                fontWeight: .w600,
-                fontSize: 14,
-              ),
-              shape: StadiumBorder(),
-              padding: .symmetric(horizontal: 20, vertical: 8),
-              onSelected: (_) {
-                c.specialty.value = spec;
-              },
-            );
-          },
-        );
-      }),
+      child: ListView.separated(
+        scrollDirection: .horizontal,
+        itemCount: Specialty.values.length,
+        separatorBuilder: (_, _) => SizedBox(width: 8),
+        itemBuilder: (_, idx) => Obx(() {
+          final spec = idx == 0 ? null : Specialty.values[idx - 1];
+          final selected = idx == 0
+              ? c.specFilter.value is _AllSpecs
+              : c.specFilter.value is _SpecificSpec &&
+                    (c.specFilter.value as _SpecificSpec).target == spec;
+          return ChoiceChip(
+            label: Text((spec?.name ?? "all").capitalizeFirst!),
+            selected: selected,
+            showCheckmark: false,
+            backgroundColor: Colors.white,
+            selectedColor: primaryColor,
+            side: BorderSide(color: primaryColor),
+            labelStyle: TextStyle(
+              color: selected ? Colors.white : primaryColor,
+              fontWeight: .w600,
+              fontSize: 14,
+            ),
+            shape: StadiumBorder(),
+            padding: .symmetric(horizontal: 20, vertical: 8),
+            onSelected: (_) {
+              if (spec == null) {
+                c.specFilter.value = _AllSpecs();
+              } else {
+                c.specFilter.value = _SpecificSpec(spec);
+              }
+            },
+          );
+        }),
+      ),
     );
   }
 }
