@@ -61,7 +61,16 @@ class MockBookingsRepo implements BookingsRepo {
 
   @override
   Future<int> add({required int doctor, required DateTime datetime}) async {
-    return ++lastId;
+    final id = ++lastId;
+    mockedList.add(
+      BookingData(
+        id: id,
+        doctor: doctor,
+        datetime: datetime,
+        isCanceled: false,
+      ),
+    );
+    return id;
   }
 
   @override
