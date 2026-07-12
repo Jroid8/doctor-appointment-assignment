@@ -30,6 +30,14 @@ class Time implements Comparable<Time> {
     return "${h12.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')} $p";
   }
 
+  @override
+  int get hashCode => hour + minute * 60;
+
+  @override
+  bool operator ==(Object other) {
+    return other is Time && hashCode == other.hashCode;
+  }
+
   DateTime toDateTime({
     required int year,
     required int month,
