@@ -24,7 +24,7 @@ String dioErrorMessage(DioException e) {
       } else {
         return 'connection error';
       }
-    case DioExceptionType.unknown:
+    default:
       return 'unknown';
   }
 }
