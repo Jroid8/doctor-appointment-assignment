@@ -75,9 +75,13 @@ class _DoctorSearchState extends State<DoctorSearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+			appBar: AppBar(
+				title: Text("All Doctors"),
+				centerTitle: true,
+				titleTextStyle: TextTheme.of(context).labelLarge!,
+			),
       body: Column(
         children: [
-          _TopBar(),
           DoctorSearchBar(
             controller: searchController,
             onChanged: (q) {
