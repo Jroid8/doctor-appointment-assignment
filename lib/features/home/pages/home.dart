@@ -152,9 +152,9 @@ class _Categories extends StatelessWidget {
     ("Cardiolo..", "cardiology.svg", .cardiology),
     ("Pulmono..", "pulmonology.svg", .pulmonology),
     ("General", "general.svg", .general),
-    ("Neurology", "neurology.svg", .neurology),
-    ("Gastroe...", "gastroenterology.svg", .gastroenterology),
-    ("Laborat...", "laboratory.svg", .laboratory),
+    ("Neuro...", "neurology.svg", .neurology),
+    ("Gastro...", "gastroenterology.svg", .gastroenterology),
+    ("Labora...", "laboratory.svg", .laboratory),
     ("Vaccina...", "vaccination.svg", .vaccination),
   ];
 

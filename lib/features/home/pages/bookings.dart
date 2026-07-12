@@ -346,7 +346,7 @@ class _BcDocSec extends StatelessWidget {
                 doc.specialty.name.capitalizeFirst!,
                 style: TextTheme.of(context).labelMedium,
               ),
-              DoctorCardAddress(model: doc),
+              DoctorCardAddress(model: doc, maxChars: 24),
             ],
           ),
         ],

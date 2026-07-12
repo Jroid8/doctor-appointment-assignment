@@ -133,18 +133,24 @@ class _InfoSec extends StatelessWidget {
 }
 
 class DoctorCardAddress extends StatelessWidget {
-  const DoctorCardAddress({required this.model, super.key});
+	final int? maxChars;
+
+  const DoctorCardAddress({required this.model, this.maxChars, super.key});
 
   final Doctor model;
 
   @override
   Widget build(BuildContext context) {
+		String address = model.address;
+		if (address.length > 24) {
+			address = "${address.substring(0, 21)}...";
+		}
     return Row(
       children: [
         SvgPicture.asset("assets/images/map-pin-small.svg"),
         SizedBox(width: 4),
         Text(
-          model.address,
+          address,
           style: TextStyle(
             fontSize: 14,
             color: Colors.grey.shade600,

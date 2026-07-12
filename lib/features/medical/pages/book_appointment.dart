@@ -221,7 +221,7 @@ class _HourSelect extends StatelessWidget {
               ),
               child: Text(
                 time.toString(),
-                style: TextStyle(fontWeight: .w600, fontSize: 14),
+                style: TextStyle(fontWeight: .w600, fontSize: 13),
               ),
             ),
           ),
