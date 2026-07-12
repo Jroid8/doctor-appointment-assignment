@@ -40,6 +40,7 @@ class DoctorDbManager {
         .get()
         .then((rows) => load(rows.map(Doctor.fromLocalTable)));
     remoteRepo.fetch(tile).then((docs) {
+      if (docs == null) return;
       load(docs);
       localdb.doctorTbl.insertAll(
         docs.map((doc) => doc.toLocalTable()),

@@ -5,7 +5,7 @@ import 'package:doctor_appointment/features/medical/repos/health_center_images.d
 import 'package:latlong2/latlong.dart';
 
 abstract class HealthCentersRepo {
-  Future<List<HealthCenter>> fetch(MapTile tile);
+  Future<List<HealthCenter>?> fetch(MapTile tile);
 }
 
 class MockHealthCenterRepo implements HealthCentersRepo {
@@ -19,7 +19,7 @@ class MockHealthCenterRepo implements HealthCentersRepo {
       location: LatLng(0, 0),
       type: .hospital,
       isFavorite: false,
-			tile: MapTile(0, 0)
+      tile: MapTile(0, 0),
     ),
     HealthCenter(
       id: 2,
@@ -30,13 +30,14 @@ class MockHealthCenterRepo implements HealthCentersRepo {
       location: LatLng(0, 0),
       type: .clinic,
       isFavorite: true,
-			tile: MapTile(0, 0),
+      tile: MapTile(0, 0),
     ),
   ];
   static bool picturesInserted = false;
+  static bool fetchedOnce = false;
 
   @override
-  Future<List<HealthCenter>> fetch(_) async {
+  Future<List<HealthCenter>?> fetch(_) async {
     if (!picturesInserted) {
       for (int i = 0; i < mockedHcData.length; i++) {
         HealthCenter hc = mockedHcData[i];
@@ -51,6 +52,11 @@ class MockHealthCenterRepo implements HealthCentersRepo {
       }
       picturesInserted = true;
     }
-    return mockedHcData;
+    if (fetchedOnce) {
+			return null;
+    } else {
+			fetchedOnce = true;
+      return mockedHcData;
+    }
   }
 }

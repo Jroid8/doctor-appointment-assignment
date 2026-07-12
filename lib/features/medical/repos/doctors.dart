@@ -8,7 +8,7 @@ import 'package:doctor_appointment/features/medical/repos/doctor_images.dart';
 import 'package:latlong2/latlong.dart';
 
 abstract class DoctorsRepo {
-  Future<List<Doctor>> fetch(MapTile tile);
+  Future<List<Doctor>?> fetch(MapTile tile);
   Future<Doctor> find(int id);
 }
 
@@ -110,6 +110,7 @@ class MockDoctorsRepo implements DoctorsRepo {
   ];
 
   static bool picturesInserted = false;
+  static bool fetchedOnce = false;
 
   Future<void> _insertPictures() async {
     if (!picturesInserted) {
@@ -127,9 +128,14 @@ class MockDoctorsRepo implements DoctorsRepo {
   }
 
   @override
-  Future<List<Doctor>> fetch(MapTile tile) async {
+  Future<List<Doctor>?> fetch(MapTile tile) async {
     await _insertPictures();
-    return mockedDoctors;
+    if (fetchedOnce) {
+      return null;
+    } else {
+      fetchedOnce = true;
+      return mockedDoctors;
+    }
   }
 
   @override

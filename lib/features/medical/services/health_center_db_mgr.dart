@@ -40,6 +40,7 @@ class HealthCenterDbManager {
           ),
         );
     remoteRepo.fetch(tile).then((hcs) {
+      if (hcs == null) return;
       healthCenters.value = hcs;
       localdb.healthCenterTbl.insertAll(
         hcs.map((hc) => hc.toLocalTable()),
