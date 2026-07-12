@@ -34,6 +34,10 @@ class LocalDB extends _$LocalDB {
   static QueryExecutor _openConnection() {
     return driftDatabase(
       name: 'localdb',
+      web: DriftWebOptions(
+        sqlite3Wasm: Uri.parse('sqlite3.wasm'),
+        driftWorker: Uri.parse("drift_worker.dart.js"),
+      ),
       native: const DriftNativeOptions(
         databaseDirectory: getApplicationSupportDirectory,
       ),
