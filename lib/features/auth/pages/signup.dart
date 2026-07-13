@@ -22,6 +22,7 @@ class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+			resizeToAvoidBottomInset: false,
       body: Padding(
         padding: .symmetric(vertical: 0, horizontal: 24),
         child: Column(

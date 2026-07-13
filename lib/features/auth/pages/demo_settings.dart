@@ -28,6 +28,7 @@ class _DemoSettingsPageState extends State<DemoSettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+			resizeToAvoidBottomInset: false,
       body: Padding(
         padding: .all(32),
         child: Column(

@@ -22,6 +22,7 @@ class EditProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+			resizeToAvoidBottomInset: false,
       appBar: PreferredSize(
         preferredSize: .fromHeight(30),
         child: Row(

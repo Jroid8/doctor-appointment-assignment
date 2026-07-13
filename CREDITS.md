@@ -8,3 +8,4 @@
 - [Top asnwer to "How to add a Password input type in flutter makes the password user input is not visible?"](https://stackoverflow.com/a/52112297)
 - [Second answer to "How to create number input field in Flutter?"](https://stackoverflow.com/a/54343828)
 - [Top answer to "How can I limit the length of a text field input in flutter?"](https://stackoverflow.com/a/53775364)
+- [Top answer to "When the keyboard appears, the Flutter widgets resize. How to prevent this?"](https://stackoverflow.com/a/46551390)

@@ -20,6 +20,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+			resizeToAvoidBottomInset: false,
       body: Padding(
         padding: .symmetric(horizontal: 24, vertical: 14),
         child: Column(

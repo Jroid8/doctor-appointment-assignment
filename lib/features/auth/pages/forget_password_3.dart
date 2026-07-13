@@ -24,6 +24,7 @@ class ForgetPasswordPage3 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+			resizeToAvoidBottomInset: false,
       body: Padding(
         padding: .symmetric(vertical: 32, horizontal: 24),
         child: gappedWidgetStack(
