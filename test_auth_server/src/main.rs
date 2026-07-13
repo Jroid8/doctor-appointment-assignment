@@ -84,7 +84,9 @@ impl ServerState {
 fn new_session(mut sessions: RwLockWriteGuard<HashMap<Vec<u8>, usize>>, client: &Client) -> String {
     let mut session_token: Vec<u8> = vec![0; 32];
     rand::fill(&mut session_token);
-    let body = serde_json::to_string(&ClientSession::from_client(client, &session_token)).unwrap();
+    let session = &ClientSession::from_client(client, &session_token);
+    println!("new session created: {session:?}");
+    let body = serde_json::to_string(session).unwrap();
     sessions.insert(session_token, client.id);
     body
 }
@@ -140,6 +142,7 @@ async fn signup(
             phone_number: None,
             password: form.password,
         };
+        println!("new user created: {client:?}");
         let client_session_data = new_session(state.sessions.write().unwrap(), &client);
         state.accounts.write().unwrap().push(client);
         HttpResponse::Created()
@@ -164,7 +167,7 @@ async fn main() -> std::io::Result<()> {
                 ),
         )
     })
-    .bind(("127.0.0.1", 1234))?
+    .bind(("0.0.0.0", 1234))?
     .run()
     .await
 }
